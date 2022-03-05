@@ -4,10 +4,23 @@ import Detail from './pages/Detail';
 import Edit from './pages/Edit';
 import Home from './pages/Home';
 import Tambah from './pages/Tambah';
+import { useDispatch } from 'react-redux'
+import { setProduct } from './app/data/slice';
+import axios from 'axios';
 
 const App = () => {
+  // const data = useSelector(state => state.product.data);
+  const dispatch = useDispatch();
+
+  axios('http://localhost:3000/product')
+    .then(res => res.data)
+    .then(data => {
+      dispatch(setProduct(data));
+      console.log(data)
+    })
+    .catch(err => console.log(err));
+  
   return (
-    <div>
       <BrowserRouter>
         <Navigation />
         <Switch>
@@ -17,7 +30,6 @@ const App = () => {
           <Route path="/tambah" children={() => <Tambah />} />
         </Switch>
       </BrowserRouter>
-    </div>
   )
 }
 
