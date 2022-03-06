@@ -11,8 +11,10 @@ import axios from 'axios';
 const App = () => {
   // const data = useSelector(state => state.product.data);
   const dispatch = useDispatch();
+  const apiUrl = 'https://app-6b251b89-8cf6-4b18-b9fa-fbba00bbdd17.cleverapps.io/product'
+  // const apiUrl = 'http://localhost:3000/product'
 
-  axios('http://localhost:3000/product')
+  axios(apiUrl)
     .then(res => res.data)
     .then(data => {
       dispatch(setProduct(data));
