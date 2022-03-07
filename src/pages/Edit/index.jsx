@@ -41,6 +41,11 @@ const Edit = () => {
     if (dataObject.image === '') { 
       delete dataObject.image
     }
+    if (dataObject.status === 'on') {
+      data.set('status', 'true')
+    } else {
+      data.set('status', 'false')
+    }
 
     // form validation
     let listData = {

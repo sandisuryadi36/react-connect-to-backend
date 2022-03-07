@@ -18,6 +18,11 @@ const Tambah = () => {
     data.forEach((value, key) => {
       dataObject[key] = value;
     })
+    if (dataObject.status === 'on') {
+      data.set('status', 'true')
+    } else {
+      data.set('status', 'false')
+    }
 
     // form validation
     let listData = {
