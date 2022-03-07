@@ -19,6 +19,7 @@ const Tambah = () => {
       dataObject[key] = value;
     })
 
+    // form validation
     let listData = {
       nama: dataObject.name,
       harga: dataObject.price,
@@ -38,6 +39,7 @@ const Tambah = () => {
     ))
 
     if (validation.passes()) {
+      // post to API
       setLoading(true)
       axios.post(c.API_URL, data)
         .then(res => {
@@ -61,7 +63,7 @@ const Tambah = () => {
           <Input name="name" type="text" placeholder="Nama Produk..." label="Nama"/>
           <Input name="price" type="number" placeholder="Harga Produk..." label="Harga"/>
           <Input name="stock" type="number" placeholder="Stock Produk..." label="Stock" />
-          <Input  name="image" type="file" placeholder="Image Produk..." label="Image" />
+          <Input name="image" type="file" placeholder="Image Produk..." label="Image" />
           <Input name="status" type="checkbox" label="Active" defaultChecked={true} />
           <button type="submit" form='tambahProduct' className="btn btn-primary" >Simpan</button>
         </form>
