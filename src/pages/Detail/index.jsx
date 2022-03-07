@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import './index.scss';
 import { fetchProduct } from "../../app/data/slice";
+import Spinner from "../../components/spinner";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Detail = () => {
     <div className="main">
       <Link to="/" className="btn btn-primary">Kembali</Link>
 
-      {(product) ? (pageStatus === 'loading') ? <div>Loading...</div>
+      {(product) ? (pageStatus === 'loading') ? <Spinner />
         : (pageStatus === 'succeeded') ? <DetailProduct product={product} />
           : <div>{error} </div>
         : <div className="content">Product not found</div>

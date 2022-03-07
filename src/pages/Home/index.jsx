@@ -3,6 +3,7 @@ import './index.scss';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProduct } from '../../app/data/slice';
 import { useEffect } from 'react';
+import Spinner from '../../components/spinner';
 
 const ListProduct = (props) => {
   const { data } = props;
@@ -49,7 +50,7 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {(pageStatus === 'loading') ? <tr><td>Loading...</td></tr> : <ListProduct data={product} />}
+          {(pageStatus === 'loading') ? <tr><td><Spinner /></td></tr> : <ListProduct data={product} />}
         </tbody>
       </table>
     </div>

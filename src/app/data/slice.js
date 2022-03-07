@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import * as c from './constants'
 import axios from 'axios';
 
 const initialState = {
@@ -6,9 +7,6 @@ const initialState = {
     status: 'idle',
     error: null,
 }
-
-const apiUrl = 'http://localhost:3000/product'
-// const apiUrl = 'https://app-6b251b89-8cf6-4b18-b9fa-fbba00bbdd17.cleverapps.io/product'
 
 export const dataSlice = createSlice({
     name: 'data',
@@ -28,12 +26,29 @@ export const dataSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
+            .addCase(addProduct.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(addProduct.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.product.push(action.payload)
+            })
+            .addCase(addProduct.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
     },
 })
 
 // Fetch all Product
 export const fetchProduct = createAsyncThunk('getProduct', async () => {
-    const response = await axios.get(apiUrl)
+    const response = await axios.get(c.API_URL)
+    return response.data
+})
+
+// post Product
+export const addProduct = createAsyncThunk('addProduct', async (data) => { 
+    const response = await axios.post(c.API_URL, data)
     return response.data
 })
 
