@@ -74,6 +74,10 @@ const Detail = () => {
             <td>Stock</td>
             <td>: {product.stock}</td>
           </tr>
+          <tr>
+            <td>Status</td>
+            <td>: {(product.status ? "Aktif" : "Nonaktif")}</td>
+          </tr>
         </tbody>
       </table>
     )

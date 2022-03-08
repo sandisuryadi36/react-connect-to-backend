@@ -75,6 +75,7 @@ const Home = () => {
           <td>{key + 1}</td>
           <td>{item.name}</td>
           <td className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price)}</td>
+          <td className="text-center">{(item.status ? "Aktif" : "Nonaktif")}</td>
           <td className="text-center">
             <Link to={`/detail/${item._id}`} className="btn btn-sm btn-info">Detail</Link>
             <Link to={`/edit/${item._id}`} className="btn btn-sm btn-warning">Edit</Link>
@@ -99,6 +100,7 @@ const Home = () => {
             <th>ID</th>
             <th>Name</th>
             <th className="text-right">Price</th>
+            <th className="text-center">Status</th>
             <th className="text-center">Action</th>
           </tr>
         </thead>
