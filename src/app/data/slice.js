@@ -6,12 +6,24 @@ const initialState = {
     product: [],
     status: 'idle',
     error: null,
+    search: '',
 }
 
 export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setData: (state, action) => {
+            if (action.payload.status) {
+                state.status = action.payload.status
+            }
+            if (action.payload.search) {
+                state.search = action.payload.search
+            }
+            if (action.payload.product) {
+                state.product = action.payload.product
+            }
+        }
     },
     extraReducers(builder) {
         builder
@@ -52,5 +64,5 @@ export const addProduct = createAsyncThunk('addProduct', async (data) => {
     return response.data
 })
 
-// export const { setData } = dataSlice.actions;
+export const { setData } = dataSlice.actions;
 export default dataSlice.reducer;

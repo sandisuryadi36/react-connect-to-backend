@@ -11,6 +11,7 @@ $white-7: rgba(255, 255, 255, .7);
   display: flex;
   padding-left: 20px;
   box-shadow: $shadow-color;
+  text-decoration: none;
 
   .navbar-brand {
     color: $white-9;

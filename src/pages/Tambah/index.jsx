@@ -5,12 +5,19 @@ import axios from 'axios'
 import { useState } from 'react'
 import Spinner from '../../components/spinner'
 import * as Validator from 'validatorjs'
+import { Redirect } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setData } from '../../app/data/slice'
+import { Link } from 'react-router-dom'
 
 
 const Tambah = () => {
   const [loading, setLoading] = useState(false)
+  const [redirect, setRedirect] = useState(false)
+  const dispatch = useDispatch()
   Validator.useLang('id')
 
+  // post data from form
   const submitHandler = (e) => { 
     e.preventDefault();
     const data = new FormData(e.target);
@@ -49,18 +56,23 @@ const Tambah = () => {
       axios.post(c.API_URL, data)
         .then(res => {
           setLoading(false)
-          console.log(res);
+          alert('Berhasil menambahkan data')
+          dispatch(setData({ status: 'idle' }))
+          setRedirect(true)
         })
         .catch(err => {
           setLoading(false)
-          console.log(err);
+          alert(err.message)
         })
     }
   }
 
+  // main element
   return (
     <div className="main">
+      {redirect ? <Redirect to='/' /> : null}
       {loading && <Spinner />}
+      <Link to="/" className="btn btn-primary">Kembali</Link>
       <div className="card">
         <h2>Tambah Produk</h2>
         <br />

@@ -1,14 +1,14 @@
-import { Oval } from "react-loader-spinner";
+import { TailSpin } from "react-loader-spinner";
 import './index.scss';
 
 const Spinner = () => { 
     return (
         <div className="loading-bg">
-            <Oval 
+            <TailSpin 
                 height={100}
                 width={100}
                 color="#00BFFF"
-                loading={true}
+                ariaLabel='loading'
             />
         </div>
     )
