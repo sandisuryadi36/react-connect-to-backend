@@ -17,12 +17,7 @@ export const dataSlice = createSlice({
             if (action.payload.status) {
                 state.status = action.payload.status
             }
-            if (action.payload.search) {
-                state.search = action.payload.search
-            }
-            if (action.payload.product) {
-                state.product = action.payload.product
-            }
+            state.search = action.payload.search
         }
     },
     extraReducers(builder) {
@@ -35,6 +30,17 @@ export const dataSlice = createSlice({
                 state.product = action.payload
             })
             .addCase(fetchProduct.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
+            .addCase(fetchSearch.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchSearch.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.product = action.payload
+            })
+            .addCase(fetchSearch.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.error.message
             })
@@ -55,6 +61,12 @@ export const dataSlice = createSlice({
 // Fetch all Product
 export const fetchProduct = createAsyncThunk('getProduct', async () => {
     const response = await axios.get(c.API_URL)
+    return response.data
+})
+
+// fetch search Product
+export const fetchSearch = createAsyncThunk('getSearch', async (search) => {
+    const response = await axios.get(`${c.API_URL}?search=${search}`)
     return response.data
 })
 

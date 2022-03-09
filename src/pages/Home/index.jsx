@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProduct, setData } from '../../app/data/slice';
+import { fetchProduct, fetchSearch, setData } from '../../app/data/slice';
 import { useEffect, useState } from 'react';
 import Spinner from '../../components/spinner';
 import axios from 'axios';
@@ -19,20 +19,12 @@ const Home = () => {
     if (pageStatus === 'idle') {
       dispatch(fetchProduct())
     }
-  }, [pageStatus])
+  }, [pageStatus, dispatch])
 
   // fetch data when search text changed
   useEffect(() => {
     if (searchText) {
-      setLoading(true)
-      axios.get(`${c.API_URL}/?search=${searchText}`)
-        .then(res => {
-          dispatch(setData({product: res.data}))
-          setLoading(false)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      dispatch(fetchSearch(searchText))
     }
   }, [searchText, dispatch])
 
@@ -56,34 +48,45 @@ const Home = () => {
   // set search text
   let timer = null
   const searchHandler = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     clearTimeout(timer)
     timer = setTimeout(() => {
       let text = e.target.value
-      dispatch(setData({
-        status: 'idle',
-        search: text
-      }))
+      dispatch(setData({ search: text }))
+      if (text === '') {
+        dispatch(setData({
+          status: 'idle',
+          search: ''
+        }))
+      }
     }, 500)
   }
 
   // list product element
   const ListProduct = () => {
-    return (
-      product.map((item, key) => (
-        <tr key={key}>
-          <td>{key + 1}</td>
-          <td>{item.name}</td>
-          <td className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price)}</td>
-          <td className="text-center">{(item.status ? "Aktif" : "Nonaktif")}</td>
-          <td className="text-center">
-            <Link to={`/detail/${item._id}`} className="btn btn-sm btn-info">Detail</Link>
-            <Link to={`/edit/${item._id}`} className="btn btn-sm btn-warning">Edit</Link>
-            <button className="btn btn-sm btn-danger" onClick={() => deleteHandler(item._id)}>Delete</button>
-          </td>
+    if (product.length > 0) {
+      return (
+        product.map((item, key) => (
+          <tr key={key}>
+            <td>{key + 1}</td>
+            <td>{item.name}</td>
+            <td className="text-right">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price)}</td>
+            <td className="text-center">{(item.status ? "Aktif" : "Nonaktif")}</td>
+            <td className="text-center">
+              <Link to={`/detail/${item._id}`} className="btn btn-sm btn-info">Detail</Link>
+              <Link to={`/edit/${item._id}`} className="btn btn-sm btn-warning">Edit</Link>
+              <button className="btn btn-sm btn-danger" onClick={() => deleteHandler(item._id)}>Delete</button>
+            </td>
+          </tr>
+        ))
+      )
+    } else {
+      return (
+        <tr>
+          <td colSpan="5" className="text-center">Data tidak ditemukan</td>
         </tr>
-      ))
-    )
+      )
+    }
   }
 
   // main element
