@@ -32,7 +32,6 @@ const Detail = () => {
 
   // delete product
   const deleteHandler = (id) => {
-    console.log(id)
     if (window.confirm("Yakin ingin menghapus item?")) {
       setLoading(true)
       axios.delete(c.API_URL + "/" + id)
