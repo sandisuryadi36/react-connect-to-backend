@@ -1,18 +1,16 @@
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProduct, fetchSearch, setData } from '../../app/data/slice';
-import { useEffect, useState } from 'react';
+import { deleteProduct, fetchProduct, fetchSearch, setData } from '../../app/data/slice';
+import { useEffect } from 'react';
 import Spinner from '../../components/spinner';
-import axios from 'axios';
-import * as c from '../../app/data/constants'
 
 const Home = () => {
   const pageStatus = useSelector(state => state.data.status);
   const product = useSelector(state => state.data.product);
   const searchText = useSelector(state => state.data.search);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const loading = useSelector(state => state.data.loading);
 
   // fetch data first time
   useEffect(() => {
@@ -31,16 +29,7 @@ const Home = () => {
   // delete product
   const deleteHandler = (id) => {
     if (window.confirm("Yakin ingin menghapus item?")) {
-      setLoading(true)
-      axios.delete(c.API_URL + "/" + id)
-        .then(res => {
-          setLoading(false)
-          dispatch(setData({ status: 'idle' }))
-        })
-        .catch(err => {
-          setLoading(false)
-          alert(err.message)
-        })
+      dispatch(deleteProduct(id))
     }
   }
 

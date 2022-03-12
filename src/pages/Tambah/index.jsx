@@ -1,19 +1,19 @@
-import * as c from '../../app/data/constants'
 import Input from '../../components/Input'
 import './index.scss'
-import axios from 'axios'
 import { useState } from 'react'
 import Spinner from '../../components/spinner'
 import * as Validator from 'validatorjs'
 import { Redirect } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { setData } from '../../app/data/slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addProduct } from '../../app/data/slice'
 import { Link } from 'react-router-dom'
 
 
 const Tambah = () => {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [redirect, setRedirect] = useState(false)
+  const loading = useSelector(state => state.data.loading)
+  const error = useSelector(state => state.data.error)
   const dispatch = useDispatch()
   Validator.useLang('id')
 
@@ -52,18 +52,8 @@ const Tambah = () => {
 
     if (validation.passes()) {
       // post to API
-      setLoading(true)
-      axios.post(c.API_URL, data)
-        .then(res => {
-          setLoading(false)
-          alert('Berhasil menambahkan data')
-          dispatch(setData({ status: 'idle' }))
-          setRedirect(true)
-        })
-        .catch(err => {
-          setLoading(false)
-          alert(err.message)
-        })
+      dispatch(addProduct(data))
+      setRedirect(true)
     }
   }
 
@@ -72,6 +62,7 @@ const Tambah = () => {
     <div className="main">
       {redirect ? <Redirect to='/' /> : null}
       {loading && <Spinner />}
+      {error && alert(error)}
       <Link to="/" className="btn btn-primary">Kembali</Link>
       <div className="card">
         <h2>Tambah Produk</h2>

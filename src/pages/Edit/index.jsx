@@ -1,20 +1,18 @@
-import * as c from '../../app/data/constants'
 import Input from '../../components/Input'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Spinner from '../../components/spinner'
 import * as Validator from 'validatorjs'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProduct, setData } from '../../app/data/slice'
+import { fetchProduct, updateProduct } from '../../app/data/slice'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 
 const Edit = () => {
-  const [loading, setLoading] = useState(false)
   const [redirect, setRedirect] = useState(false)
   let params = useParams()
+  const loading = useSelector(state => state.data.loading)
   let product = useSelector(state => {
     try {
       return state.data.product.find(item => item._id === params.id)
@@ -76,18 +74,11 @@ const Edit = () => {
         dataSend = dataObject
       }
       // post to API
-      setLoading(true)
-      axios.patch(c.API_URL + '/'+ params.id, dataSend)
-        .then(res => {
-          setLoading(false)
-          alert('Data berhasil diubah')
-          dispatch(setData({ status: 'idle' }))
-          setRedirect(true)
-        })
-        .catch(err => {
-          setLoading(false)
-          alert(err.message)
-        })
+      dispatch(updateProduct({
+        id: params.id,
+        data: dataSend
+      }))
+      setRedirect(true)
     }
   }
 
