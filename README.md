@@ -1,3 +1,3 @@
-# Template React JS dari Eduwork
+Frontend connected with REST API
 
-gunakan template ini untuk mengerjakan tugas integrasi react x express dengan studi kasus CRUDS
+https://react-fe-be.herokuapp.com/
