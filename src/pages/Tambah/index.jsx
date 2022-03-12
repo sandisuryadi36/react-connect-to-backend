@@ -60,9 +60,9 @@ const Tambah = () => {
   // main element
   return (
     <div className="main">
-      {redirect ? <Redirect to='/' /> : null}
       {loading && <Spinner />}
       {error && alert(error)}
+      {redirect ? <Redirect to='/' /> : null}
       <Link to="/" className="btn btn-primary">Kembali</Link>
       <div className="card">
         <h2>Tambah Produk</h2>

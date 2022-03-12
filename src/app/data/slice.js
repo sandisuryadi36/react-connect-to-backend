@@ -121,7 +121,7 @@ export const addProduct = createAsyncThunk('addProduct', async (data) => {
 
 // update Product
 export const updateProduct = createAsyncThunk('updateProduct', async (data) => { 
-    const response = await axios.patch(`${c.API_URL}/${data.id}`, data.data)
+    const response = await axios.put(`${c.API_URL}/${data.id}`, data.data)
     return response.data
 })
 

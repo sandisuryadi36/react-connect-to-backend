@@ -11,17 +11,17 @@ import { Link } from 'react-router-dom'
 
 const Edit = () => {
   const [redirect, setRedirect] = useState(false)
-  let params = useParams()
+  const params = useParams()
   const loading = useSelector(state => state.data.loading)
-  let product = useSelector(state => {
+  const product = useSelector(state => {
     try {
       return state.data.product.find(item => item._id === params.id)
-    } catch (error) {
+    } catch (err) {
       return null
     }
   });
-  let pageStatus = useSelector(state => state.data.status);
-  let error = useSelector(state => state.data.error);
+  const pageStatus = useSelector(state => state.data.status);
+  const error = useSelector(state => state.data.error);
   const dispatch = useDispatch()
   Validator.useLang('id')
 
@@ -67,16 +67,10 @@ const Edit = () => {
     ))
 
     if (validation.passes()) {
-      let dataSend
-      if (dataObject.image) {
-        dataSend = data
-      } else { 
-        dataSend = dataObject
-      }
       // post to API
       dispatch(updateProduct({
         id: params.id,
-        data: dataSend
+        data: data
       }))
       setRedirect(true)
     }
@@ -110,8 +104,9 @@ const Edit = () => {
   // main element
   return (
     <div className="main">
-      {redirect ? <Redirect to='/' /> : null}
       {loading && <Spinner />}
+      {error && alert(error)}
+      {redirect ? <Redirect to='/' /> : null}
       <Link to="/" className="btn btn-primary">Kembali</Link>
       <div className="card">
         <h2>Edit Produk</h2>
